@@ -18,8 +18,9 @@ using std::string;
 using GpuMat = cv::cuda::GpuMat;
 using namespace cv;
 
-/* Based on the cpp_classification example of Caffe, but with GPU
- * image preprocessing and a simple memory pool. */
+/* Based on the this repo caffe/classification.cpp and
+ * ssd_detect.cpp(https://github.com/limjoe/caffe/blob/ssd_bvlc_inference/examples/ssd/ssd_detect.cpp)
+ * example of SSD, but with GPU image preprocessing and a simple memory pool. */
 class Classifier
 {
 public:
