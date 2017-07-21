@@ -53,7 +53,7 @@ private:
 
 Classifier::Classifier(const string& model_file,
                        const string& trained_file,
-                        const string& mean_value,
+                    const string& mean_value,
                        const string& label_file,
                        GPUAllocator* allocator)
     : allocator_(allocator)
@@ -135,7 +135,7 @@ std::vector<float> Classifier::Predict(const Mat& img){
   Blob<float>* result_blob = net_->output_blobs()[0];
   const float* result = result_blob->cpu_data();
   const int num_det = result_blob->height();
-  vector<vector<float> > detections;
+  std::vector<float> detections;
   for (int k = 0; k < num_det; ++k) {
     if (result[0] == -1) {
       // Skip invalid detection.
