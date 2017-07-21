@@ -107,7 +107,7 @@ void Classifier::SetMean(const string& mean_value)
     CHECK(values.size() == 1 || values.size() == num_channels_) <<
       "Specify either 1 mean_value or as many as channels: " << num_channels_;
 
-    std::vector<cv::Mat> channels;
+    std::vector<Mat> channels;
     for (int i = 0; i < num_channels_; ++i) {
       /* Extract an individual channel. */
       Mat channel(input_geometry_.height, input_geometry_.width, CV_32FC1,
@@ -124,7 +124,7 @@ std::vector<float> Classifier::Predict(const Mat& img){
   /* Forward dimension change to all layers. */
   net_->Reshape();
 
-  std::vector<cv::Mat> input_channels;
+  std::vector<GpuMat> input_channels;
   WrapInputLayer(&input_channels);
 
   Preprocess(img, &input_channels);
