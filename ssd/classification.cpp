@@ -30,12 +30,12 @@ public:
                const string& label_file,
                GPUAllocator* allocator);
 
-    std::vector<float> Classify(const Mat& img);
+    std::vector<vector<float> > Classify(const Mat& img);
 
 private:
     void SetMean(const string& mean_value);
 
-    std::vector<float> Predict(const Mat& img);
+    std::vector<vector<float> > Predict(const Mat& img);
 
     void WrapInputLayer(std::vector<GpuMat>* input_channels);
 
@@ -53,7 +53,7 @@ private:
 
 Classifier::Classifier(const string& model_file,
                        const string& trained_file,
-                    const string& mean_value,
+                       const string& mean_value,
                        const string& label_file,
                        GPUAllocator* allocator)
     : allocator_(allocator)
@@ -88,8 +88,8 @@ Classifier::Classifier(const string& model_file,
         << "Number of labels is different from the output layer dimension.";
 }
 
-std::vector<float> Classifier::Classify(const Mat& img){
-    std::vector<float> output = Predict(img);
+std::vector<vector<float> > Classifier::Classify(const Mat& img){
+    std::vector<vector<float> > output = Predict(img);
 
     return output;
 }
@@ -117,7 +117,7 @@ void Classifier::SetMean(const string& mean_value)
     merge(channels, mean_);
 }
 
-std::vector<float> Classifier::Predict(const Mat& img){
+std::vector<vector<float> > Classifier::Predict(const Mat& img){
   Blob<float>* input_layer = net_->input_blobs()[0];
   input_layer->Reshape(1, num_channels_,
                        input_geometry_.height, input_geometry_.width);
@@ -135,7 +135,7 @@ std::vector<float> Classifier::Predict(const Mat& img){
   Blob<float>* result_blob = net_->output_blobs()[0];
   const float* result = result_blob->cpu_data();
   const int num_det = result_blob->height();
-  std::vector<float> detections;
+  vector<vector<float> > detections;
   for (int k = 0; k < num_det; ++k) {
     if (result[0] == -1) {
       // Skip invalid detection.
@@ -350,7 +350,7 @@ const char* classifier_classify(classifier_ctx* ctx,
         if (img.empty())
             throw std::invalid_argument("could not decode image");
 
-        std::vector<float> predictions;
+        std::vector<vector<float> > predictions;
         {
             /* In this scope an execution context is acquired for inference and it
              * will be automatically released back to the context pool when
