@@ -68,7 +68,7 @@ ENV GOPATH /go
 ENV PATH $GOPATH/bin:/usr/local/go/bin:$PATH
 
 # Build inference server
-COPY caffe /go/src/ssd-server
+COPY ssd /go/src/ssd-server
 COPY common.h /go/src/common.h
 RUN go get -ldflags="-s" ssd-server
 

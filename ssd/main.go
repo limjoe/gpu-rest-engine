@@ -43,7 +43,7 @@ func main() {
 	cmodel := C.CString(os.Args[1])
 	ctrained := C.CString(os.Args[2])
 	clabel := C.CString(os.Args[3])
-	mean_value := "104,117,123"
+	mean_value := C.CString("104,117,123")
 
 	log.Println("Initializing Caffe classifiers")
 	var err error
